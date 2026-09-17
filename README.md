@@ -1,5 +1,9 @@
 # Events Experiences Host
 
+[![Hostinger Deployment](https://github.com/anayap04/events-experiences-host/actions/workflows/deploy-hostinger.yml/badge.svg)](https://github.com/anayap04/events-experiences-host/actions/workflows/deploy-hostinger.yml)
+[![SonarCloud Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=anayap04_events-experiences-host&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=anayap04_events-experiences-host)
+[![License](https://img.shields.io/github/license/anayap04/events-experiences-host)](LICENSE)
+
 Next.js App Router container for event and experience microfrontends. The app provides an accessible host shell, GitHub authentication, Ant Design UI, MySQL/phpMyAdmin integration, and static deployment to Hostinger.
 
 ## Local development
