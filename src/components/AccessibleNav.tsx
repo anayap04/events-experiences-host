@@ -91,30 +91,32 @@ export function AccessibleNav() {
       </Link>
 
       {/* Nav Navigation Links */}
-      <nav aria-label="Main navigation" className="hidden md:flex items-center gap-2">
-        {[
-          { label: 'Host Dashboard', path: '/', icon: <AppstoreOutlined /> },
-          { label: 'Events Remotes', path: '/events', icon: <RocketOutlined /> },
-          { label: 'Experiences Remotes', path: '/experiences', icon: <StarOutlined /> },
-        ].map((link) => {
-          const isActive = pathname === link.path;
-          return (
-            <Link
-              key={link.path}
-              href={link.path}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-semibold transition-colors ${
-                isActive
-                  ? 'bg-blue-50 text-blue-600'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              }`}
-              style={{ textDecoration: 'none' }}
-            >
-              {link.icon}
-              <span>{link.label}</span>
-            </Link>
-          );
-        })}
-      </nav>
+      {isAuthenticated && user && (
+        <nav aria-label="Main navigation" className="hidden md:flex items-center gap-2">
+          {[
+            { label: 'Host Dashboard', path: '/', icon: <AppstoreOutlined /> },
+            { label: 'Events Remotes', path: '/events', icon: <RocketOutlined /> },
+            { label: 'Experiences Remotes', path: '/experiences', icon: <StarOutlined /> },
+          ].map((link) => {
+            const isActive = pathname === link.path;
+            return (
+              <Link
+                key={link.path}
+                href={link.path}
+                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-semibold transition-colors ${
+                  isActive
+                    ? 'bg-blue-50 text-blue-600'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                }`}
+                style={{ textDecoration: 'none' }}
+              >
+                {link.icon}
+                <span>{link.label}</span>
+              </Link>
+            );
+          })}
+        </nav>
+      )}
 
       {/* User Auth Section */}
       <div className="flex items-center gap-3">

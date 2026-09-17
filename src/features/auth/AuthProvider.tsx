@@ -18,21 +18,8 @@ const AuthContext = createContext<AuthContextType>({
   logout: () => {},
 });
 
-const DEFAULT_USER: User = {
-  id: '1',
-  githubId: '1001',
-  login: 'anayap04',
-  name: 'Paola Anaya',
-  email: 'paola@anayap.tech',
-  avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&auto=format',
-  bio: 'Microfrontend Host Lead & Software Architect',
-  publicRepos: 42,
-  role: 'admin',
-  isApproved: true,
-};
-
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(DEFAULT_USER);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem('events_auth_user');

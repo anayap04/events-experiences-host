@@ -2,6 +2,20 @@ import type { Experience } from '@/types';
 
 export const INITIAL_EXPERIENCES: Experience[] = [
   {
+    id: '7',
+    name: 'Gender Reveal Martinez Gonzalez Family',
+    slug: 'gender-reveal-martinez-gonzalez-family',
+    url: 'https://anayap.tech/reveal/',
+    description: 'A private family gender reveal celebration page with event details and guest information.',
+    category: 'Gender Reveal',
+    status: 'active',
+    thumbnail: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600&h=340&fit=crop&auto=format',
+    mfeRemoteUrl: 'https://events.anayap.tech/remoteEntry.js',
+    createdBy: 'anayap04',
+    createdAt: '2026-09-17',
+    lastModified: '2026-09-17',
+  },
+  {
     id: '1',
     name: 'Rivera Family Baby Shower',
     slug: 'rivera-baby-shower',

@@ -4,7 +4,8 @@ import React, { useState } from 'react';
 import { Card, Tag, Button, Typography, Row, Col, Space } from 'antd';
 import { RocketOutlined, RightOutlined } from '@ant-design/icons';
 import Link from 'next/link';
-import { getRegisteredMfes, Microfrontend } from '@/lib/mfe-registry';
+import { getRegisteredMfes } from '@/lib/mfe-registry';
+import type { Microfrontend } from '@/types';
 import { MfeContainer } from './MfeContainer';
 
 const { Title, Text, Paragraph } = Typography;
@@ -68,7 +69,7 @@ export default function MfeRegistryView() {
                     flexDirection: 'column',
                     justifyContent: 'space-between',
                   }}
-                  styles={{ body: { padding: 20, height: '100%', display: 'flex', flexDirection: 'column', justifyBetween: true } }}
+                  styles={{ body: { padding: 20, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' } }}
                 >
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
