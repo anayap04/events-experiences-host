@@ -61,7 +61,7 @@ export async function checkUserInDb(githubUsername: string): Promise<User | null
   if (pool && isConnectedToMySQL) {
     try {
       const [rows] = await pool.query<any[]>(
-        'SELECT * FROM users WHERE username = ? OR github_id = ? LIMIT 1',
+        'SELECT * FROM users_container_admin WHERE username = ? OR github_id = ? LIMIT 1',
         [githubUsername, githubUsername]
       );
       if (rows.length > 0) {
@@ -104,6 +104,27 @@ export async function checkUserInDb(githubUsername: string): Promise<User | null
   };
   MOCK_USERS_TABLE.push(newUser);
   return newUser;
+}
+
+export async function updateUserInDb(
+  githubId: string,
+  updates: Pick<User, 'name' | 'avatar' | 'bio' | 'publicRepos'>
+): Promise<void> {
+  if (pool && isConnectedToMySQL) {
+    try {
+      await pool.query(
+        'UPDATE users_container_admin SET name = ?, avatar_url = ?, bio = ?, public_repos = ? WHERE github_id = ?',
+        [updates.name, updates.avatar, updates.bio, updates.publicRepos, githubId]
+      );
+    } catch (e) {
+      console.warn('phpMyAdmin update user failed:', e);
+    }
+  }
+
+  const user = MOCK_USERS_TABLE.find(u => u.githubId === githubId);
+  if (user) {
+    Object.assign(user, updates);
+  }
 }
 
 export async function fetchEventsFromDb(): Promise<Experience[]> {

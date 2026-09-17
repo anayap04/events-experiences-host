@@ -1,4 +1,4 @@
-import { checkUserInDb } from './db';
+import { checkUserInDb, updateUserInDb } from './db';
 import type { User } from '@/types';
 
 export interface GitHubProfile {
@@ -80,6 +80,22 @@ export async function authenticateGitHubUser(githubUsername: string): Promise<{ 
     bio: profile.bio || dbUser.bio,
     publicRepos: profile.public_repos ?? dbUser.publicRepos,
   };
+
+  // Persist to phpMyAdmin whenever GitHub's live data has drifted from the stored record
+  const hasDrifted =
+    updatedUser.name !== dbUser.name ||
+    updatedUser.avatar !== dbUser.avatar ||
+    updatedUser.bio !== dbUser.bio ||
+    updatedUser.publicRepos !== dbUser.publicRepos;
+
+  if (hasDrifted) {
+    await updateUserInDb(dbUser.githubId, {
+      name: updatedUser.name,
+      avatar: updatedUser.avatar,
+      bio: updatedUser.bio,
+      publicRepos: updatedUser.publicRepos,
+    });
+  }
 
   return { success: true, user: updatedUser };
 }

@@ -25,7 +25,7 @@ interface AuthPageProps {
 export default function AuthPage({ onLoginSuccess, onBack }: AuthPageProps) {
   const { loginWithGitHub } = useAuth();
   const [authState, setAuthState] = useState<AuthState>('idle');
-  const [githubUsername, setGithubUsername] = useState('anayap04');
+  const [githubUsername, setGithubUsername] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleGitHubLogin = async () => {

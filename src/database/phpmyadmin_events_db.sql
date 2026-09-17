@@ -8,10 +8,10 @@ USE `events_db`;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Table structure for table `users_container_admin`
 --
 
-CREATE TABLE IF NOT EXISTS `users` (
+CREATE TABLE IF NOT EXISTS `users_container_admin` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `github_id` VARCHAR(100) UNIQUE NOT NULL,
   `username` VARCHAR(100) NOT NULL,
@@ -27,13 +27,13 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `users`
+-- Dumping data for table `users_container_admin`
 --
 
-INSERT INTO `users` (`github_id`, `username`, `name`, `email`, `avatar_url`, `bio`, `public_repos`, `role`, `is_approved`) VALUES
+INSERT INTO `users_container_admin` (`github_id`, `username`, `name`, `email`, `avatar_url`, `bio`, `public_repos`, `role`, `is_approved`) VALUES
 ('1001', 'anayap04', 'Paola Anaya', 'paola@anayap.tech', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&auto=format', 'Microfrontend Host Lead & Software Architect', 42, 'admin', 1),
 ('1002', 'alexrivera', 'Alex Rivera', 'alex@eventshq.io', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&auto=format', 'Event Creator & Lead Organizer', 18, 'creator', 1)
-ON DUPLICATE KEY UPDATE `name` = VALUES(`name`);
+ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `username` = VALUES(`username`);
 
 -- --------------------------------------------------------
 
