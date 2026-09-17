@@ -1,0 +1,62 @@
+name: Build & Deploy to Hostinger
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Clear npm cache
+        run: npm cache clean --force
+
+      - name: Remove package-lock.json
+        run: rm -f package-lock.json
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Install TypeScript
+        run: npm install -g typescript
+
+      - name: Type check
+        run: npm run type-check
+
+      - name: Run WCAG 2.2 AA & Unit Tests
+        run: npm run test
+
+      - name: Build
+        run: npm run build
+
+      - name: Verify build output
+        run: |
+          if [ ! -d "dist" ]; then
+            echo "Error: dist directory not found!"
+            exit 1
+          fi
+          echo "Build output contents:"
+          ls -la dist/
+
+      - name: Deploy to Hostinger via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.HOSTINGER_HOST }}
+          username: ${{ secrets.HOSTINGER_USERNAME }}
+          password: ${{ secrets.HOSTINGER_PASSWORD }}
+          port: ${{ secrets.HOSTINGER_PORT }}
+          local-dir: ./dist/
+          server-dir: ./domains/anayap.tech/public_html/events-experiences/
+          dangerous-clean-slate: false
+
+      - name: Deployment Success
+        run: echo "✓ Deployment to https://anayap.tech/events-experiences completed successfully!"
