@@ -3,7 +3,8 @@
 import React, { Component, ErrorInfo, ReactNode, useEffect, useState } from 'react';
 import { Card, Tag, Alert, Spin, Button, Typography, Space } from 'antd';
 import { RocketOutlined, AlertOutlined, ReloadOutlined } from '@ant-design/icons';
-import { getMfeById, Microfrontend } from '@/lib/mfe-registry';
+import { getMfeById } from '@/lib/mfe-registry';
+import type { Microfrontend } from '@/types';
 import { useLiveAnnouncer } from '@/components/LiveAnnouncer';
 
 const { Text, Title } = Typography;

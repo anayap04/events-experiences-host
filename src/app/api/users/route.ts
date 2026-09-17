@@ -3,7 +3,7 @@ import { checkUserInDb } from '@/lib/db';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const username = searchParams.get('username') || 'paolaanaya';
+  const username = searchParams.get('username') || 'anayap04';
 
   try {
     const user = await checkUserInDb(username);

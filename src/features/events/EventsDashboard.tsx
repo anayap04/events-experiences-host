@@ -11,7 +11,7 @@ import {
 import EventCard from './EventCard';
 import EventCreatorModal from './EventCreatorModal';
 import { MfeContainer } from '@/features/mfe/MfeContainer';
-import { fetchEventsFromDb, saveEventToDb, deleteEventFromDb } from '@/lib/db';
+import { fetchEventsClient, saveEventClient, deleteEventClient } from '@/lib/api-client';
 import { registerCustomMfe } from '@/lib/mfe-registry';
 import type { Experience, User } from '@/types';
 
@@ -37,7 +37,7 @@ export default function EventsDashboard({ user }: EventsDashboardProps) {
   const loadData = async () => {
     setLoading(true);
     try {
-      const data = await fetchEventsFromDb();
+      const data = await fetchEventsClient();
       setExperiences(data);
       if (data.length > 0 && !selectedMfeExp) {
         setSelectedMfeExp(data[0]);
@@ -85,15 +85,15 @@ export default function EventsDashboard({ user }: EventsDashboardProps) {
     const exp = experiences.find(e => e.id === id);
     Modal.confirm({
       title: 'Delete event experience',
-      content: `Are you sure you want to remove "${exp?.name}" from phpMyAdmin database?`,
+      content: `Are you sure you want to remove "${exp?.name}"?`,
       okText: 'Delete',
       okButtonProps: { danger: true },
       cancelText: 'Cancel',
       onOk: async () => {
-        await deleteEventFromDb(id);
+        await deleteEventClient(id);
         setExperiences(prev => prev.filter(e => e.id !== id));
         if (selectedMfeExp?.id === id) setSelectedMfeExp(null);
-        messageApi.success('Event removed from database');
+        messageApi.success('Event removed');
       },
     });
   };
@@ -112,7 +112,6 @@ export default function EventsDashboard({ user }: EventsDashboardProps) {
       lastModified: today,
     };
 
-    // Auto-register into MFE Registry
     if (newExp.mfeRemoteUrl) {
       registerCustomMfe({
         id: `mfe-${slug}`,
@@ -127,11 +126,11 @@ export default function EventsDashboard({ user }: EventsDashboardProps) {
       });
     }
 
-    await saveEventToDb(newExp);
-    
+    await saveEventClient(newExp);
+
     if (editingExp) {
       setExperiences(prev => prev.map(e => e.id === editingExp.id ? newExp : e));
-      messageApi.success('Event updated in phpMyAdmin DB');
+      messageApi.success('Event updated');
     } else {
       setExperiences(prev => [newExp, ...prev]);
       messageApi.success('New Microfrontend Event created and saved');
@@ -175,7 +174,7 @@ export default function EventsDashboard({ user }: EventsDashboardProps) {
           </div>
 
           <div className="flex items-center gap-3">
-            <Tooltip title="Reload from phpMyAdmin DB">
+            <Tooltip title="Reload Events">
               <Button
                 icon={<ReloadOutlined spin={loading} />}
                 onClick={loadData}

@@ -15,7 +15,7 @@ export default function AntdConfigProvider({ children }: { children: React.React
           colorBgContainer: '#ffffff',
           colorBgLayout: '#f8fafc',
           colorTextHeading: '#0f172a',
-          colorTextBody: '#334155',
+          colorText: '#334155',
         },
         components: {
           Button: {

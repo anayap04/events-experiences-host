@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { User } from '@/types';
-import { authenticateGitHubUser } from '@/lib/github-auth';
+import { authenticateGitHubUserClient } from '@/lib/api-client';
 
 interface AuthContextType {
   user: User | null;
@@ -21,7 +21,7 @@ const AuthContext = createContext<AuthContextType>({
 const DEFAULT_USER: User = {
   id: '1',
   githubId: '1001',
-  login: 'paolaanaya',
+  login: 'anayap04',
   name: 'Paola Anaya',
   email: 'paola@anayap.tech',
   avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&auto=format',
@@ -46,7 +46,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const loginWithGitHub = async (username: string) => {
-    const res = await authenticateGitHubUser(username);
+    const res = await authenticateGitHubUserClient(username);
     if (res.success && res.user) {
       setUser(res.user);
       localStorage.setItem('events_auth_user', JSON.stringify(res.user));

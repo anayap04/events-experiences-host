@@ -1,7 +1,8 @@
 import mysql from 'mysql2/promise';
-import type { Experience, User, Microfrontend } from '@/types';
+import type { Experience, User } from '@/types';
+import { INITIAL_EXPERIENCES } from '@/features/events/data';
 
-// Connection pool configuration for phpMyAdmin / MySQL
+// Securely read MySQL credentials from environment variables (.env.local)
 const dbConfig = {
   host: process.env.MYSQL_HOST || 'localhost',
   port: Number(process.env.MYSQL_PORT || 3306),
@@ -11,6 +12,7 @@ const dbConfig = {
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
+  connectTimeout: 8000,
 };
 
 let pool: mysql.Pool | null = null;
@@ -25,12 +27,12 @@ try {
   console.warn('MySQL connection pool init deferred:', err);
 }
 
-// In-Memory Database Fallback mirroring phpMyAdmin tables when MySQL is offline
+// In-Memory Database Fallback mirroring phpMyAdmin tables when MySQL is unreachable
 const MOCK_USERS_TABLE: User[] = [
   {
     id: '1',
     githubId: '1001',
-    login: 'paolaanaya',
+    login: 'anayap04',
     name: 'Paola Anaya',
     email: 'paola@anayap.tech',
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&auto=format',
@@ -53,92 +55,7 @@ const MOCK_USERS_TABLE: User[] = [
   },
 ];
 
-const MOCK_EVENTS_TABLE: Experience[] = [
-  {
-    id: '1',
-    name: 'Rivera Family Baby Shower',
-    slug: 'rivera-baby-shower',
-    url: 'https://babyshower.riveras.family',
-    description: 'A private celebration page for our baby shower — RSVP, gift registry, venue details, and photo album for guests.',
-    category: 'Baby Shower',
-    status: 'active',
-    thumbnail: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=340&fit=crop&auto=format',
-    mfeRemoteUrl: 'https://events.anayap.tech/remoteEntry.js',
-    createdBy: 'paolaanaya',
-    createdAt: '2026-07-15',
-    lastModified: '2026-09-10',
-  },
-  {
-    id: '2',
-    name: 'Q3 Product Leadership Offsite',
-    slug: 'product-leadership-offsite',
-    url: 'https://offsite.internal.acme.co',
-    description: 'Private agenda, session notes, speaker bios, and hotel info for the 3-day leadership conference in Sonoma.',
-    category: 'Conference',
-    status: 'active',
-    thumbnail: 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=600&h=340&fit=crop&auto=format',
-    mfeRemoteUrl: 'https://events.anayap.tech/remoteEntry.js',
-    createdBy: 'paolaanaya',
-    createdAt: '2026-06-01',
-    lastModified: '2026-09-05',
-  },
-  {
-    id: '3',
-    name: "Sophie's 30th Birthday",
-    slug: 'sophie-30th-birthday',
-    url: 'https://sophie30.party',
-    description: 'Surprise birthday celebration for Sophie — venue surprise reveal on the day, RSVP tracking, and a shared memory wall.',
-    category: 'Birthday',
-    status: 'draft',
-    thumbnail: 'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=600&h=340&fit=crop&auto=format',
-    mfeRemoteUrl: 'https://experiences.anayap.tech/remoteEntry.js',
-    createdBy: 'alexrivera',
-    createdAt: '2026-08-20',
-    lastModified: '2026-09-12',
-  },
-  {
-    id: '4',
-    name: 'Chen & Nakamura Wedding',
-    slug: 'chen-nakamura-wedding',
-    url: 'https://chennakamura.wedding',
-    description: 'Wedding info hub with ceremony details, accommodation options, dietary preferences form, and a live photo stream for guests.',
-    category: 'Wedding',
-    status: 'active',
-    thumbnail: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=340&fit=crop&auto=format',
-    mfeRemoteUrl: 'https://experiences.anayap.tech/remoteEntry.js',
-    createdBy: 'paolaanaya',
-    createdAt: '2026-03-10',
-    lastModified: '2026-08-28',
-  },
-  {
-    id: '5',
-    name: 'Morales Family Reunion 2026',
-    slug: 'morales-reunion-2026',
-    url: 'https://moralesreunion.com',
-    description: 'Annual family gathering page with potluck signup, activity schedule, directions to the lake house, and a photo booth uploader.',
-    category: 'Family Reunion',
-    status: 'active',
-    thumbnail: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&h=340&fit=crop&auto=format',
-    mfeRemoteUrl: 'https://events.anayap.tech/remoteEntry.js',
-    createdBy: 'alexrivera',
-    createdAt: '2026-04-22',
-    lastModified: '2026-09-01',
-  },
-  {
-    id: '6',
-    name: 'Design Dept Farewell — Mia',
-    slug: 'design-farewell-mia',
-    url: 'https://farewell.mia.internal',
-    description: 'Team farewell for Mia Santos — a private tribute page where colleagues can leave messages, share memories, and view the event schedule.',
-    category: 'Farewell',
-    status: 'archived',
-    thumbnail: 'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=600&h=340&fit=crop&auto=format',
-    mfeRemoteUrl: 'https://tickets.anayap.tech/remoteEntry.js',
-    createdBy: 'paolaanaya',
-    createdAt: '2025-11-05',
-    lastModified: '2025-12-14',
-  },
-];
+const MOCK_EVENTS_TABLE: Experience[] = [...INITIAL_EXPERIENCES];
 
 export async function checkUserInDb(githubUsername: string): Promise<User | null> {
   if (pool && isConnectedToMySQL) {
@@ -167,14 +84,12 @@ export async function checkUserInDb(githubUsername: string): Promise<User | null
     }
   }
 
-  // Fallback to in-memory user list
   const user = MOCK_USERS_TABLE.find(
     u => u.login.toLowerCase() === githubUsername.toLowerCase() || u.githubId === githubUsername
   );
 
   if (user) return user;
 
-  // Allow any valid GitHub user for demonstration, registering them into DB
   const newUser: User = {
     id: String(Date.now()),
     githubId: githubUsername,
@@ -195,20 +110,22 @@ export async function fetchEventsFromDb(): Promise<Experience[]> {
   if (pool && isConnectedToMySQL) {
     try {
       const [rows] = await pool.query<any[]>('SELECT * FROM events ORDER BY created_at DESC');
-      return rows.map(r => ({
-        id: String(r.id),
-        name: r.name,
-        slug: r.slug,
-        url: r.url,
-        description: r.description,
-        category: r.category,
-        status: r.status,
-        thumbnail: r.thumbnail,
-        mfeRemoteUrl: r.mfe_remote_url,
-        createdBy: r.created_by,
-        createdAt: r.created_at,
-        lastModified: r.last_modified,
-      }));
+      if (rows && rows.length > 0) {
+        return rows.map(r => ({
+          id: String(r.id),
+          name: r.name,
+          slug: r.slug,
+          url: r.url,
+          description: r.description,
+          category: r.category,
+          status: r.status,
+          thumbnail: r.thumbnail,
+          mfeRemoteUrl: r.mfe_remote_url,
+          createdBy: r.created_by,
+          createdAt: r.created_at,
+          lastModified: r.last_modified,
+        }));
+      }
     } catch (e) {
       console.warn('phpMyAdmin fetch events failed, using fallback:', e);
     }

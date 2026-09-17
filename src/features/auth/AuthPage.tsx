@@ -25,7 +25,7 @@ interface AuthPageProps {
 export default function AuthPage({ onLoginSuccess, onBack }: AuthPageProps) {
   const { loginWithGitHub } = useAuth();
   const [authState, setAuthState] = useState<AuthState>('idle');
-  const [githubUsername, setGithubUsername] = useState('paolaanaya');
+  const [githubUsername, setGithubUsername] = useState('anayap04');
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleGitHubLogin = async () => {
@@ -173,7 +173,7 @@ export default function AuthPage({ onLoginSuccess, onBack }: AuthPageProps) {
                   <Input
                     size="large"
                     prefix={<GithubOutlined style={{ color: '#94a3b8' }} />}
-                    placeholder="e.g. paolaanaya or alexrivera"
+                    placeholder="e.g. anayap04 or alexrivera"
                     value={githubUsername}
                     onChange={(e) => setGithubUsername(e.target.value)}
                     disabled={isLoading}
