@@ -27,7 +27,7 @@ export default function MfeRegistryView() {
         }}
         styles={{ body: { padding: '36px' } }}
       >
-        <Space direction="vertical" size={12} style={{ maxWidth: 800 }}>
+        <Space orientation="vertical" size={12} style={{ maxWidth: 800 }}>
           <Tag color="blue" style={{ borderRadius: 6, fontWeight: 600 }}>
             Microfrontend Architecture Host
           </Tag>

@@ -14,24 +14,21 @@ jobs:
       HOSTINGER_SERVER_DIR: ./domains/anayap.tech/public_html/events-experiences/
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
           node-version: 22
 
       - name: Clear npm cache
         run: npm cache clean --force
 
-      - name: Remove package-lock.json
-        run: rm -f package-lock.json
-
       - name: Install dependencies
-        run: npm install --legacy-peer-deps
+        run: npm ci --legacy-peer-deps --ignore-scripts
 
       - name: Install TypeScript
-        run: npm install -g typescript
+        run: npm install -g typescript@5.4.5 --ignore-scripts
 
       - name: Type check
         run: npm run type-check
@@ -52,12 +49,12 @@ jobs:
           ls -la dist/
 
       - name: Deploy to Hostinger via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        uses: SamKirkland/FTP-Deploy-Action@8a24039354ee91000cb948cb4a1dbdf1a1b94a3c # v4.3.4
         with:
           server: ${{ secrets.HOSTINGER_HOST }}
           username: ${{ secrets.HOSTINGER_USERNAME }}
           password: ${{ secrets.HOSTINGER_PASSWORD }}
-          port: ${{ secrets.HOSTINGER_PORT }}
+          port: 21
           local-dir: ./dist/
           server-dir: ${{ env.HOSTINGER_SERVER_DIR }}
           dangerous-clean-slate: false

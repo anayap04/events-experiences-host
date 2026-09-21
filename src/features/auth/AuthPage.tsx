@@ -6,7 +6,6 @@ import {
   GithubOutlined,
   LockOutlined,
   StarOutlined,
-  ForkOutlined,
   CloseCircleOutlined,
   ArrowLeftOutlined,
   DatabaseOutlined,
@@ -18,8 +17,8 @@ import { useAuth } from './AuthProvider';
 const { Title, Text, Paragraph } = Typography;
 
 interface AuthPageProps {
-  onLoginSuccess?: () => void;
-  onBack?: () => void;
+  readonly onLoginSuccess?: () => void;
+  readonly onBack?: () => void;
 }
 
 export default function AuthPage({ onLoginSuccess, onBack }: AuthPageProps) {
@@ -97,8 +96,8 @@ export default function AuthPage({ onLoginSuccess, onBack }: AuthPageProps) {
                 title: 'Microfrontend RBAC',
                 desc: 'Ensures authorized organizers can build and mount independent event micro-apps.',
               },
-            ].map((item, idx) => (
-              <div key={idx} className="flex items-start gap-3 p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+            ].map((item) => (
+              <div key={item.title} className="flex items-start gap-3 p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <div className="p-2 rounded-lg" style={{ background: 'rgba(255,255,255,0.08)' }}>
                   {item.icon}
                 </div>
@@ -135,7 +134,7 @@ export default function AuthPage({ onLoginSuccess, onBack }: AuthPageProps) {
               <Alert
                 type="warning"
                 showIcon
-                message="phpMyAdmin Database Note"
+                title="phpMyAdmin Database Note"
                 description="Make sure your GitHub username is added to the 'users' table in phpMyAdmin (or database/phpmyadmin_events_db.sql)."
                 style={{ borderRadius: 10, textAlign: 'left', background: 'rgba(245, 158, 11, 0.1)', border: '1px solid rgba(245, 158, 11, 0.3)' }}
               />
@@ -209,8 +208,8 @@ export default function AuthPage({ onLoginSuccess, onBack }: AuthPageProps) {
                   { label: 'Fetch GitHub User Profile Metadata', done: true },
                   { label: 'Check phpMyAdmin MySQL database `users` table', done: true },
                   { label: 'Grant Microfrontend Event Creator Privileges', done: true },
-                ].map((step, idx) => (
-                  <div key={idx} className="flex items-center gap-2 text-xs" style={{ color: '#94a3b8' }}>
+                ].map((step) => (
+                  <div key={step.label} className="flex items-center gap-2 text-xs" style={{ color: '#94a3b8' }}>
                     <CheckCircleOutlined style={{ color: '#10b981' }} />
                     <span>{step.label}</span>
                   </div>

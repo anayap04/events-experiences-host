@@ -1,3 +1,4 @@
+import { randomInt } from 'node:crypto';
 import { checkUserInDb, updateUserInDb } from './db';
 import type { User } from '@/types';
 
@@ -46,7 +47,7 @@ export async function fetchGitHubUserProfile(usernameOrToken: string): Promise<G
   // Graceful fallback profile construction
   return {
     login: usernameOrToken,
-    id: Math.floor(Math.random() * 899999) + 100000,
+    id: randomInt(100000, 999999),
     avatar_url: `https://github.com/${usernameOrToken}.png`,
     name: usernameOrToken,
     email: `${usernameOrToken}@users.noreply.github.com`,

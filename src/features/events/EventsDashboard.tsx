@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   Layout, Button, Input, Select, Typography, Empty, Tag, Modal, message, Space, Card, Badge, Tooltip
 } from 'antd';
@@ -34,24 +34,24 @@ export default function EventsDashboard({ user }: EventsDashboardProps) {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [messageApi, contextHolder] = message.useMessage();
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     setLoading(true);
     try {
       const data = await fetchEventsClient();
       setExperiences(data);
-      if (data.length > 0 && !selectedMfeExp) {
-        setSelectedMfeExp(data[0]);
+      if (data.length > 0) {
+        setSelectedMfeExp(current => current ?? data[0]);
       }
     } catch (err) {
       console.error('Failed to load events:', err);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [loadData]);
 
   const categories = useMemo(() => {
     return [...new Set(experiences.map(e => e.category))];

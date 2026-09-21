@@ -1,3 +1,4 @@
+[![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-dark.svg)](https://sonarcloud.io/summary/new_code?id=anayap04_events-experiences-host)
 # Events Experiences Host
 
 [![Hostinger Deployment](https://github.com/anayap04/events-experiences-host/actions/workflows/deploy-hostinger.yml/badge.svg)](https://github.com/anayap04/events-experiences-host/actions/workflows/deploy-hostinger.yml)
