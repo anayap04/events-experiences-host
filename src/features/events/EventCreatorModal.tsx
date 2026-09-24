@@ -96,15 +96,18 @@ export default function EventCreatorModal({
             label={<Text strong>Category</Text>}
             rules={[{ required: true, message: 'Select category' }]}
           >
-            <Select size="large">
-              <Select.Option value="Baby Shower">Baby Shower</Select.Option>
-              <Select.Option value="Birthday">Birthday</Select.Option>
-              <Select.Option value="Wedding">Wedding</Select.Option>
-              <Select.Option value="Conference">Conference</Select.Option>
-              <Select.Option value="Family Reunion">Family Reunion</Select.Option>
-              <Select.Option value="Farewell">Farewell</Select.Option>
-              <Select.Option value="Workshop">Workshop</Select.Option>
-            </Select>
+            <Select
+              size="large"
+              options={[
+                { value: 'Baby Shower', label: 'Baby Shower' },
+                { value: 'Birthday', label: 'Birthday' },
+                { value: 'Wedding', label: 'Wedding' },
+                { value: 'Conference', label: 'Conference' },
+                { value: 'Family Reunion', label: 'Family Reunion' },
+                { value: 'Farewell', label: 'Farewell' },
+                { value: 'Workshop', label: 'Workshop' },
+              ]}
+            />
           </Form.Item>
 
           <Form.Item
@@ -112,11 +115,14 @@ export default function EventCreatorModal({
             label={<Text strong>Publishing Status</Text>}
             rules={[{ required: true, message: 'Select status' }]}
           >
-            <Select size="large">
-              <Select.Option value="active">Active (Published)</Select.Option>
-              <Select.Option value="draft">Draft (Private)</Select.Option>
-              <Select.Option value="archived">Archived</Select.Option>
-            </Select>
+            <Select
+              size="large"
+              options={[
+                { value: 'active', label: 'Active (Published)' },
+                { value: 'draft', label: 'Draft (Private)' },
+                { value: 'archived', label: 'Archived' },
+              ]}
+            />
           </Form.Item>
         </div>
 
