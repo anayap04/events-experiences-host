@@ -8,10 +8,10 @@ import type { Experience } from '@/types';
 const { Text } = Typography;
 
 interface EventCreatorModalProps {
-  open: boolean;
-  experience?: Experience | null;
-  onClose: () => void;
-  onSave: (values: Omit<Experience, 'id' | 'createdAt' | 'lastModified'>) => void;
+  readonly open: boolean;
+  readonly experience?: Experience | null;
+  readonly onClose: () => void;
+  readonly onSave: (values: Omit<Experience, 'id' | 'createdAt' | 'lastModified'>) => void;
 }
 
 export default function EventCreatorModal({

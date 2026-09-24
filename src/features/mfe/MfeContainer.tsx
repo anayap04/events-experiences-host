@@ -10,8 +10,8 @@ import { useLiveAnnouncer } from '@/components/LiveAnnouncer';
 const { Text, Title } = Typography;
 
 interface ErrorBoundaryProps {
-  fallbackTitle: string;
-  children: ReactNode;
+  readonly fallbackTitle: string;
+  readonly children: ReactNode;
 }
 
 interface ErrorBoundaryState {
@@ -63,9 +63,9 @@ class MfeErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState>
 }
 
 interface MfeContainerProps {
-  mfeId: string;
-  title?: string;
-  demoContent?: ReactNode;
+  readonly mfeId: string;
+  readonly title?: string;
+  readonly demoContent?: ReactNode;
 }
 
 export const MfeContainer: React.FC<MfeContainerProps> = ({ mfeId, title, demoContent }) => {

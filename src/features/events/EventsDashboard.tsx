@@ -19,7 +19,7 @@ const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
 
 interface EventsDashboardProps {
-  user: User;
+  readonly user: User;
 }
 
 export default function EventsDashboard({ user }: EventsDashboardProps) {
@@ -238,20 +238,22 @@ export default function EventsDashboard({ user }: EventsDashboardProps) {
             onChange={setCategoryFilter}
             style={{ width: 160 }}
             suffixIcon={<FilterOutlined />}
-          >
-            <Select.Option value="all">All Categories</Select.Option>
-            {categories.map(c => <Select.Option key={c} value={c}>{c}</Select.Option>)}
-          </Select>
+            options={[
+              { value: 'all', label: 'All Categories' },
+              ...categories.map(c => ({ value: c, label: c })),
+            ]}
+          />
           <Select
             value={statusFilter}
             onChange={setStatusFilter}
             style={{ width: 140 }}
-          >
-            <Select.Option value="all">All Statuses</Select.Option>
-            <Select.Option value="active">Active</Select.Option>
-            <Select.Option value="draft">Draft</Select.Option>
-            <Select.Option value="archived">Archived</Select.Option>
-          </Select>
+            options={[
+              { value: 'all', label: 'All Statuses' },
+              { value: 'active', label: 'Active' },
+              { value: 'draft', label: 'Draft' },
+              { value: 'archived', label: 'Archived' },
+            ]}
+          />
         </div>
 
         <Space align="center">

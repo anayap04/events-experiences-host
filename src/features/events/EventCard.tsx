@@ -21,10 +21,10 @@ const STATUS_COLOR: Record<Experience['status'], string> = {
 };
 
 interface EventCardProps {
-  experience: Experience;
-  onEdit: (exp: Experience) => void;
-  onDelete: (id: string) => void;
-  onInspectMfe?: (exp: Experience) => void;
+  readonly experience: Experience;
+  readonly onEdit: (exp: Experience) => void;
+  readonly onDelete: (id: string) => void;
+  readonly onInspectMfe?: (exp: Experience) => void;
 }
 
 export default function EventCard({ experience, onEdit, onDelete, onInspectMfe }: EventCardProps) {
